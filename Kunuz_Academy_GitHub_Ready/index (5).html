@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunuz Academy</title>
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script>
+        if (window.tailwind) window.tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            500: '#0f172a',
+                            600: '#1e293b',
+                            700: '#334155',
+                            800: '#1d4ed8',
+                            900: '#1e3a8a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Tajawal', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { -webkit-font-smoothing: antialiased; }
+        html[dir="rtl"] body { font-family: 'Tajawal', sans-serif; }
+        .transition-smooth { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover { box-shadow: 0 5px 16px -5px rgba(15, 23, 42, 0.13), 0 2px 5px -2px rgba(15, 23, 42, 0.06); }
+        .card-hover:hover { transform: translateY(-3px); border-color: #fdba74; box-shadow: 0 14px 28px -9px rgba(249, 115, 22, 0.24), 0 5px 12px -5px rgba(15, 23, 42, 0.10); }
+        .kunuz-wordmark { color: #f97316; }
+        .company-kunuz { color: #f97316; font-weight: 700; }
+        .company-awaed { color: #0f766e; font-weight: 700; }
+    </style>
+</head>
+<body class="bg-brand-50 text-brand-600 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-brand-100 sticky top-0 z-50">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <a href="#/" class="text-xl font-extrabold tracking-tight text-brand-500 cursor-pointer">
+               
+<img
+  src="./kunuz-academy-logo.png"
+  alt="Kunuz Academy"
+  style="height: 48px; width: auto; object-fit: contain;"
+>
+
+            </a>
+            <div class="flex items-center space-x-6">
+                <a href="#/" class="hidden sm:block text-sm font-medium text-brand-600 hover:text-brand-800 transition-smooth" data-i18n="nav_home">Home</a>
+                <button id="lang-toggle" class="text-sm font-semibold text-brand-500 border border-brand-100 px-3 py-1.5 rounded-md hover:bg-brand-50 transition-smooth">
+                    العربية
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Router -->
+    <main id="app" class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12"></main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-brand-100 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+            <p class="text-sm text-brand-700" data-i18n="footer_rights">© 2023 Kunuz Academy. All rights reserved.</p>
+            <p class="text-xs text-brand-700 opacity-60 mt-1" data-i18n="footer_sub">An educational initiative by Kunuz.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA ARCHITECTURE ---
+        const content = {
+            en: {
+                dir: "ltr",
+                nav_home: "Home",
+                footer_rights: "© 2023 Kunuz Academy. All rights reserved.",
+                footer_sub: "An educational initiative by Kunuz.",
+                hero_badge: "KUNUZ ACADEMY",
+                hero_title: "Your Journey Towards Becoming a Complete Marketer",
+                recently_added: "Recently Added",
+                most_read: "Most Read",
+                levels_title: "Learning Levels",
+                view_course: "View Course",
+                view_level: "View Level",
+                level_label: "Level",
+                prepared_by: "Prepared by",
+                tba_author: "To be announced",
+                what_you_learn: "What You Will Learn",
+                pdf_section: "Course Document",
+                view_pdf: "View PDF",
+                download_pdf: "Download PDF",
+                pdf_tba: "Content Coming Soon",
+                status_available: "Available",
+                status_progress: "In Progress",
+                status_soon: "Coming Soon",
+                cs_title: "Something Great Is in the Making",
+                cs_sub: "We're preparing the next stage of your learning journey.",
+                intro_label: "Level Introduction",
+                outcomes_label: "Learning Outcomes",
+                courses_label: "Courses in this Level",
+                no_courses: "Courses will be added soon.",
+                in_progress_title: "Level Under Development",
+                in_progress_sub: "This level is underway. Explore the available courses below; more content will be added as it is delivered."
+            },
+            ar: {
+                dir: "rtl",
+                nav_home: "الرئيسية",
+                footer_rights: "© 2023 أكاديمية كنوز. جميع الحقوق محفوظة.",
+                footer_sub: "مبادرة تعليمية من كنوز.",
+                hero_badge: "أكاديمية كنوز",
+                hero_title: "رحلتك نحو بناء عقلية Marketer متكاملة",
+                recently_added: "أُضيف حديثاً",
+                most_read: "الأكثر قراءة",
+                levels_title: "مستويات التعلّم",
+                view_course: "عرض الكورس",
+                view_level: "عرض المستوى",
+                level_label: "المستوى",
+                prepared_by: "إعداد",
+                tba_author: "سيتم الإعلان قريباً",
+                what_you_learn: "ماذا ستتعلم",
+                pdf_section: "ملف الكورس",
+                view_pdf: "عرض الملف",
+                download_pdf: "تحميل الملف",
+                pdf_tba: "المحتوى قيد التجهيز",
+                status_available: "متاح",
+                status_progress: "قيد التطوير",
+                status_soon: "قريباً",
+                cs_title: "شيء عظيم قيد الإعداد",
+                cs_sub: "نحن نجهّز المرحلة التالية من رحلتك التعليمية.",
+                intro_label: "مقدمة المستوى",
+                outcomes_label: "مخرجات التعلّم",
+                courses_label: "الكورسات في هذا المستوى",
+                no_courses: "سيتم إضافة الكورسات قريباً.",
+                in_progress_title: "المستوى قيد التطوير",
+                in_progress_sub: "بدأنا بالفعل في هذا المستوى. تقدر تتصفح المحاضرات المتاحة بالأسفل، وهنضيف محتوى جديد أول بأول."
+            }
+        };
+
+        // Flexible Data Structure
+        const levels = [
+            { 
+                id: 1, 
+                title: { en: "Foundations of Media Buying", ar: "أساسيات ميديا باينج" }, 
+                description: { en: "The entry point to digital advertising. Learn the core mechanics of how paid media operates.", ar: "نقطة البداية للإعلان الرقمي. تعلم الأساسيات لكيفية عمل الإعلانات المدفوعة." },
+                learningOutcomes: { en: ["Understand core media buying concepts", "Structure campaigns effectively", "Analyze basic performance metrics"], ar: ["فهم مفاهيم ميديا باينج الأساسية", "هيكلة الحملات بشكل فعال", "تحليل مقاييس الأداء الأساسية"] },
+                status: "available" 
+            },
+            { 
+                id: 2, 
+                title: { en: "Applied Skills & Professional Development", ar: "المهارات التطبيقية والتطوير المهني" }, 
+                description: { en: "", ar: "" },
+                learningOutcomes: { en: [], ar: [] },
+                status: "available" 
+            },
+            {
+                id: 3,
+                title: { en: "Advanced Media Buying & Growth Strategies", ar: "شراء الوسائط المتقدم واستراتيجيات النمو" },
+                description: { en: "Take your media buying expertise to the next level with advanced optimization techniques, AI-powered marketing tools, performance analytics, and scalable growth strategies.", ar: "طوّر خبرتك في الميديا باينج من خلال تقنيات التحسين المتقدمة، وأدوات التسويق المدعومة بالذكاء الاصطناعي، وتحليل الأداء، واستراتيجيات النمو والتوسع القابلة للتطبيق." },
+                learningOutcomes: { en: ["Advanced Campaign Optimization", "Conversion Rate Optimization (CRO)", "AI & Marketing Automation", "Tracking & Analytics", "Scaling & Growth Strategies", "Advanced Performance Marketing"], ar: ["تحسين الحملات الإعلانية بمستوى متقدم", "تحسين معدل التحويل (CRO)", "الذكاء الاصطناعي وأتمتة التسويق", "التتبع وتحليل البيانات", "استراتيجيات التوسع والنمو", "تسويق الأداء المتقدم"] },
+                status: "available"
+            },
+            ...Array.from({ length: 7 }, (_, i) => ({ 
+                id: i + 4, 
+                title: { en: `Level ${i + 4}`, ar: `المستوى ${i + 4}` }, 
+                description: { en: "", ar: "" },
+                learningOutcomes: { en: [], ar: [] },
+                status: "coming_soon" 
+            }))
+        ];
+
+        const courses = [
+            {
+                id: 101,
+                levelId: 1,
+                title: { en: "Media Buying Fundamentals", ar: "أساسيات Media Buying" },
+                description: { en: "Understand the basic components of paid media and how campaigns are structured from scratch.", ar: "افهم المكونات الأساسية للإعلانات المدفوعة وكيف يتم بناء الحملات من الصفر." },
+                learningObjectives: { en: ["Master campaign hierarchy", "Understand budgeting and bidding basics", "Define clear conversion goals"], ar: ["إتقان هيكل الحملات", "فهم أساسيات الميزانية والمزايدة", "تحديد أهداف التحويل بوضوح"] },
+                topics: ["What is Media Buying?", "Marketing Funnel", "Campaign Objectives", "Campaign Structure", "Campaign / Ad Set / Ad", "Budget", "Bidding", "Conversion"],
+                author: "Mohamed Magdy — Kunuz Team", // Admin adds later
+                pdfUrl: "embedded:101", // Admin adds later
+                publishedAt: "2023-10-25T10:00:00Z",
+                views: 0
+            },
+            {
+                id: 102,
+                levelId: 1,
+                title: { en: "Audience & Targeting", ar: "الجمهور والاستهداف" },
+                description: { en: "Learn how to reach the right people with the right message using advanced targeting techniques.", ar: "تعلم كيفية الوصول للجمهور المناسب بالرسالة المناسبة باستخدام تقنيات الاستهداف المتقدمة." },
+                learningObjectives: { en: ["Differentiate between audience types", "Build effective lookalike audiences", "Implement retargeting strategies"], ar: ["التمييز بين أنواع الجمهور", "بناء جمهور مشابه فعال", "تطبيق استراتيجيات إعادة الاستهداف"] },
+                topics: ["Broad", "Interest", "Custom Audience", "Lookalike", "Retargeting", "Prospecting", "Audience Segmentation", "Testing Audiences"],
+                author: "Ali Mohamed & Mohamed El Sherbiny — Kunuz Team",
+                pdfUrl: "embedded:102",
+                publishedAt: "2023-10-26T10:00:00Z",
+                views: 0
+            },
+            {
+                id: 103,
+                levelId: 1,
+                title: { en: "Metrics & KPIs", ar: "المقاييس و KPIs" },
+                description: { en: "Decode the numbers. Learn what each metric tells you about your campaign performance.", ar: "افك شفرة الأرقام. تعلم ما يخبرك به كل مقياس عن أداء حملتك." },
+                learningObjectives: { en: ["Calculate key advertising metrics", "Understand the relationship between metrics", "Answer: 'What does this number tell me?'"], ar: ["حساب مقاييس الإعلانات الرئيسية", "فهم العلاقة بين المقاييس", "الإجابة على: ماذا يخبرني هذا الرقم؟"] },
+                topics: ["CPM", "CTR", "CPC", "CVR", "CPA", "ROAS", "AOV", "Frequency", "Conversion Rate"],
+                author: "Omar Ibrahim — Kunuz Team",
+                pdfUrl: "embedded:103",
+                publishedAt: "2023-10-27T10:00:00Z",
+                views: 0
+            },
+            {
+                id: 104,
+                levelId: 1,
+                title: { en: "Performance Analysis & Optimization", ar: "تحليل الأداء والتحسين" },
+                description: { en: "Turn data into decisions. Learn how to find campaign problems and scale winning ads.", ar: "حول البيانات إلى قرارات. تعلم كيفية اكتشاف مشاكل الحملات وتكبير الإعلانات الناجحة." },
+                learningObjectives: { en: ["Identify bottlenecks in campaigns", "Solve creative, audience, and offer problems", "Execute scaling and cutting strategies"], ar: ["تحديد الاختناقات في الحملات", "حل مشاكل الكرييتف والجمهور والعرض", "تنفيذ استراتيجيات التكبير والإيقاف"] },
+                topics: ["Reading campaigns", "Finding problems", "Creative problem", "Audience problem", "Offer problem", "Landing page problem", "Budget problem", "Scaling", "Cutting", "Testing"],
+                author: "Mona Mohamed — Kunuz Team",
+                pdfUrl: "embedded:104",
+                publishedAt: "2023-10-28T10:00:00Z",
+                views: 0
+            },
+            {
+                id: 201,
+                levelId: 2,
+                title: { en: "SOSTAC Framework", ar: "إطار SOSTAC للتخطيط التسويقي" },
+                description: {
+                    en: "A practical introduction to structuring a marketing plan, from understanding the current situation and setting objectives to strategy, tactics, action, and control.",
+                    ar: "مقدمة عملية لبناء خطة تسويقية منظمة، من تحليل الوضع الحالي وتحديد الأهداف إلى الاستراتيجية والتكتيكات والتنفيذ والمتابعة."
+                },
+                learningObjectives: {
+                    en: ["Understand the six SOSTAC stages", "Connect analysis and objectives to execution", "Plan measurement and control"],
+                    ar: ["فهم مراحل SOSTAC الست", "ربط التحليل والأهداف بالتنفيذ", "تخطيط القياس والمتابعة"]
+                },
+                topics: ["Marketing Planning Fundamentals", "What Is SOSTAC?", "Brand Identification & USP", "Situation Analysis & SWOT", "Competitor Analysis", "Goals & Objectives", "Strategy: Segmentation, Targeting & Positioning", "Tactics: Content Plan & Media Plan", "Action Plan & Control", "SOSTAC vs APIC vs MOST"],
+                author: "Mostafa Ahmed — Kunuz Team",
+                pdfUrl: "embedded:201",
+                publishedAt: "2026-11-17T10:00:00Z",
+                views: 0
+            }
+            ,{
+                id: 202,
+                levelId: 2,
+                title: { en: "Niches & Suppliers", ar: "النيشات والموردين" },
+                description: {
+                    en: "Explore e-commerce niches and compare local and international suppliers for the Saudi market, including pricing, shipping, packaging, and operational trade-offs.",
+                    ar: "تعرف على نيشات التجارة الإلكترونية وقارن بين الموردين المحليين والدوليين للسوق السعودي من حيث الأسعار والشحن والتغليف والمميزات والعيوب."
+                },
+                learningObjectives: {
+                    en: ["Distinguish B2B from B2C suppliers", "Compare suppliers across key e-commerce niches", "Evaluate shipping, pricing, packaging and supplier trade-offs"],
+                    ar: ["التمييز بين موردي B2B وB2C", "مقارنة الموردين في النيشات المختلفة", "تقييم الأسعار والشحن والتغليف ومميزات وعيوب الموردين"]
+                },
+                topics: ["B2B vs B2C Suppliers", "Beauty & Personal Care", "Abayas", "Electronics", "Clothing", "Perfumes", "Accessories & Watches", "Local vs International Suppliers", "Supplier Comparison Tables", "Best Suppliers by Niche"],
+                author: "Mohamed Magdy — Kunuz Team",
+                pdfUrl: "embedded:202",
+                publishedAt: "2026-11-17T11:00:00Z",
+                views: 0
+            }
+            ,{
+                id: 203,
+                levelId: 2,
+                title: { en: "Hooks & Content Strategy Plan", ar: "الهوكات واستراتيجية وخطة المحتوى" },
+                description: {
+                    en: "Learn attention-grabbing hooks, content strategy versus content plans, content angles, conversion copywriting frameworks and ad-copy testing.",
+                    ar: "شرح أنواع الهوكات، والفرق بين استراتيجية المحتوى وخطة المحتوى، وزوايا المحتوى، ونماذج كتابة الإعلانات بهدف التحويل واختبار الكوبي."
+                },
+                learningObjectives: {
+                    en: ["Write effective verbal and visual hooks", "Distinguish content strategy from content planning", "Use conversion copywriting frameworks and test ad messages"],
+                    ar: ["كتابة هوكات لفظية وبصرية فعالة", "التمييز بين استراتيجية المحتوى وخطة المحتوى", "تطبيق نماذج الكوبي الإعلاني واختبار الرسائل"]
+                },
+                topics: ["Problem, Curiosity, Benefit, Solution, Question, Mistake & Visual Hooks", "Hook to Script", "Content Strategy vs Content Plan", "Audience & Pain Points", "Content Angles", "Conversion Copywriting", "AIDA, FAB, PAS, ACCA, PAPA, BAB & ODC", "Ad Copy Testing"],
+                author: "Ali Mohamed — Kunuz Team",
+                pdfUrl: "embedded:203",
+                publishedAt: "2026-11-17T13:00:00Z",
+                views: 0
+            }
+            ,{
+                id: 204,
+                levelId: 2,
+                title: { en: "Emotional Intelligence", ar: "الذكاء العاطفي" },
+                description: {
+                    en: "Develop emotional intelligence for teamwork, client relationships, conflict resolution, responsible communication and collaborative problem-solving.",
+                    ar: "تطوير الذكاء العاطفي في التعامل مع الزملاء والعملاء، وإدارة الخلافات، والتواصل المسؤول، وحل المشكلات بشكل تعاوني."
+                },
+                learningObjectives: {
+                    en: ["Understand the four pillars of emotional intelligence", "Manage emotions and communicate effectively under pressure", "Resolve conflicts and build lasting trust"],
+                    ar: ["فهم الركائز الأربع للذكاء العاطفي", "إدارة المشاعر والتواصل بفعالية تحت الضغط", "حل الخلافات وبناء الثقة على المدى الطويل"]
+                },
+                topics: ["Emotional Intelligence: EQ vs IQ", "Conflict Resolution & Interpersonal Skills", "Self-Awareness", "Self-Management", "Social Awareness", "Relationship Management", "Emotional Regulation & Conflict Roots", "Active Listening & Responsible Responses", "Collaborative Problem-Solving & Negotiation", "Building Trust & Long-Term Relationships"],
+                author: "Mona Mohamed — Kunuz Team",
+                pdfUrl: "embedded:204",
+                publishedAt: "2026-11-17T14:00:00Z",
+                views: 0
+            }
+            ,{
+                id: 301,
+                levelId: 3,
+                title: { en: "AI-Powered Conversion Rate Optimization (CRO)", ar: "تحسين معدل التحويل باستخدام الذكاء الاصطناعي (CRO)" },
+                description: { en: "A practical workshop covering CRO fundamentals, user experience improvements, AI-assisted HTML/CSS/JS and deployment through Google Tag Manager.", ar: "ورشة عمل تطبيقية تشرح أساسيات تحسين معدل التحويل وتجربة المستخدم، والاستفادة من ChatGPT وClaude في إعداد الأكواد، وتنفيذ التحسينات باستخدام Google Tag Manager." },
+                learningObjectives: { en: ["Understand CRO and conversion barriers", "Create UI improvement ideas with ChatGPT and Claude", "Apply and preview changes using GTM"], ar: ["فهم CRO وعوائق التحويل", "اقتراح تحسينات الواجهات باستخدام ChatGPT وClaude", "تطبيق التعديلات ومعاينتها باستخدام GTM"] },
+                topics: ["CRO Fundamentals & User Experience", "Conversion Goals, CPA & ROAS", "CTA, Forms & Social Proof", "ChatGPT & Claude for HTML/CSS/JavaScript", "Prompt Engineering for CRO", "Google Tag Manager: Tags, Triggers & Variables", "Buy Button Optimization", "Pop-ups & Countdown Timers", "Forms & Google Sheets Integration"],
+                author: "Yahia Abo-Elyazeed — Awaed Team",
+                pdfUrl: "embedded:301",
+                publishedAt: "2026-11-18T10:00:00Z",
+                views: 0
+            }
+        ];
+
+        // --- STATE & ROUTING ---
+        let currentLang = 'en';
+        let t = content[currentLang]; // translation object
+
+        function render() {
+            const app = document.getElementById('app');
+            if (!app) {
+                console.error('Kunuz Academy: missing #app container');
+                return;
+            }
+            try {
+                renderRoute(app);
+            } catch (error) {
+                console.error('Kunuz Academy rendering failed:', error);
+                app.replaceChildren();
+                const panel = document.createElement('section');
+                panel.className = 'bg-white border border-brand-100 rounded-xl p-8';
+                const heading = document.createElement('h1');
+                heading.className = 'text-2xl font-bold text-brand-500 mb-3';
+                heading.textContent = currentLang === 'ar' ? 'تعذر عرض الصفحة' : 'Unable to display this page';
+                const message = document.createElement('p');
+                message.className = 'text-brand-700 mb-4';
+                message.textContent = currentLang === 'ar' ? 'حدث خطأ أثناء تحميل المحتوى. يمكنك العودة للرئيسية والمحاولة مجددًا.' : 'An error occurred while loading this content. Return home and try again.';
+                const link = document.createElement('a');
+                link.href = '#/';
+                link.className = 'text-brand-800 font-semibold underline';
+                link.textContent = currentLang === 'ar' ? 'العودة للرئيسية' : 'Back to home';
+                panel.append(heading, message, link);
+                app.appendChild(panel);
+            }
+        }
+
+        function renderRoute(app) {
+            t = content[currentLang];
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = t.dir;
+            
+            // Update static UI elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t[el.getAttribute('data-i18n')];
+            });
+            const langToggle = document.getElementById('lang-toggle');
+            if (langToggle) langToggle.textContent = currentLang === 'en' ? 'العربية' : 'English';
+
+            const hash = window.location.hash || '#/';
+            const parts = hash.split('/'); // e.g., #, level, 1
+            
+            app.innerHTML = ''; // Clear
+
+            if (parts[1] === 'level' && parts[2]) {
+                renderLevelPage(parseInt(parts[2]));
+            } else if (parts[1] === 'course' && parts[2]) {
+                renderCoursePage(parseInt(parts[2]));
+            } else {
+                renderHomePage();
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // --- VIEWS ---
+        
+        function renderHomePage() {
+            const publishedCourses = courses.filter(c => c.publishedAt).sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+            const hasViews = courses.some(c => c.views > 0);
+
+            const html = `
+                <!-- Hero -->
+                <section class="text-center py-12 md:py-20 border-b border-brand-100">
+                    <span class="text-xs font-bold tracking-[0.2em] text-brand-800 uppercase">${t.hero_badge}</span>
+                    <h1 class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight text-brand-500 max-w-3xl mx-auto leading-tight">
+                        ${t.hero_title}
+                    </h1>
+                </section>
+
+                <!-- Recently Added -->
+                ${publishedCourses.length > 0 ? `
+                    <section class="py-12">
+                        <h2 class="text-xl font-bold text-brand-500 mb-6">${t.recently_added}</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            ${publishedCourses.slice(0, 3).map(course => renderCourseCard(course)).join('')}
+                        </div>
+                    </section>
+                ` : ''}
+
+                <!-- Most Read (Hidden if no views) -->
+                ${hasViews ? `
+                    <section class="py-12 border-t border-brand-100">
+                        <h2 class="text-xl font-bold text-brand-500 mb-6">${t.most_read}</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            ${[...courses].sort((a,b) => b.views - a.views).slice(0, 3).map(course => renderCourseCard(course)).join('')}
+                        </div>
+                    </section>
+                ` : ''}
+
+                <!-- Learning Levels -->
+                <section class="py-12 border-t border-brand-100">
+                    <h2 class="text-xl font-bold text-brand-500 mb-6">${t.levels_title}</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        ${levels.map(level => `
+                            <a href="#/level/${level.id}" 
+                               class="block p-5 bg-white border border-brand-100 rounded-xl transition-smooth card-hover cursor-pointer">
+                                <span class="text-sm font-semibold text-brand-700">${t.level_label} ${level.id}</span>
+                                <h3 class="mt-1 font-bold text-brand-500 text-sm leading-snug h-10 overflow-hidden">
+                                    ${level.title[currentLang] || ''}
+                                </h3>
+                                <div class="mt-2 text-[10px] font-semibold inline-block">
+                                    ${renderStatusBadge(level.status)}
+                                </div>
+                            </a>
+                        `).join('')}
+                    </div>
+                </section>
+            `;
+            document.getElementById('app').innerHTML = html;
+        }
+
+        function renderLevelPage(levelId) {
+            const level = levels.find(l => l.id === levelId);
+            if (!level) return renderHomePage();
+
+            const levelCourses = courses.filter(c => c.levelId === levelId);
+            let contentHtml = '';
+
+            if (level.status === 'available') {
+                contentHtml = `
+                    <!-- Introduction -->
+                    ${level.description[currentLang] ? `
+                        <section class="mb-10">
+                            <h2 class="text-lg font-bold text-brand-500 mb-3">${t.intro_label}</h2>
+                            <p class="text-brand-700 leading-relaxed">${level.description[currentLang]}</p>
+                        </section>
+                    ` : ''}
+
+                    <!-- Outcomes -->
+                    ${level.learningOutcomes[currentLang] && level.learningOutcomes[currentLang].length > 0 ? `
+                        <section class="mb-10 bg-white p-6 rounded-xl border border-brand-100">
+                            <h2 class="text-lg font-bold text-brand-500 mb-4">${t.outcomes_label}</h2>
+                            <ul class="space-y-2">
+                                ${level.learningOutcomes[currentLang].map(o => `
+                                    <li class="flex items-start text-brand-700">
+                                        <span class="text-brand-800 mt-1 ${t.dir === 'rtl' ? 'ml-2' : 'mr-2'}">›</span>
+                                        <span>${o}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </section>
+                    ` : ''}
+
+                    <!-- Courses List -->
+                    <section>
+                        <h2 class="text-lg font-bold text-brand-500 mb-4">${t.courses_label}</h2>
+                        ${levelCourses.length > 0 ? `
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                ${levelCourses.map(c => renderCourseCard(c)).join('')}
+                            </div>
+                        ` : `<p class="text-brand-700">${t.no_courses}</p>`}
+                    </section>
+                `;
+            } else if (level.status === 'in_progress') {
+                contentHtml = `
+                    <!-- In Progress State -->
+                    <div class="text-center py-12 bg-white rounded-xl border border-brand-100 mb-10">
+                        <h2 class="text-2xl font-bold text-brand-500 mb-2">${t.in_progress_title}</h2>
+                        <p class="text-brand-700 max-w-md mx-auto">${t.in_progress_sub}</p>
+                    </div>
+
+                    <!-- Courses List Structure Ready -->
+                    <section>
+                        <h2 class="text-lg font-bold text-brand-500 mb-4">${t.courses_label}</h2>
+                        ${levelCourses.length > 0 ? `
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                ${levelCourses.map(c => renderCourseCard(c)).join('')}
+                            </div>
+                        ` : `<p class="text-brand-700">${t.no_courses}</p>`}
+                    </section>
+                `;
+            } else if (level.status === 'coming_soon') {
+                contentHtml = `
+                    <!-- Coming Soon State -->
+                    <div class="text-center py-16 bg-white rounded-xl border border-brand-100">
+                        <h2 class="text-2xl font-bold text-brand-500 mb-2">${t.cs_title}</h2>
+                        <p class="text-brand-700">${t.cs_sub}</p>
+                    </div>
+                `;
+            }
+
+            const html = `
+                <!-- Level Header -->
+                <div class="mb-12">
+                    <a href="#/" class="text-sm text-brand-700 hover:text-brand-500 mb-4 inline-block">← ${t.nav_home}</a>
+                    <span class="text-sm font-medium text-brand-800">${t.level_label} ${level.id}</span>
+                    <div class="flex items-center justify-between mt-2">
+                        <h1 class="text-3xl md:text-4xl font-extrabold text-brand-500 tracking-tight">
+                            ${level.title[currentLang]}
+                        </h1>
+                        ${renderStatusBadge(level.status)}
+                    </div>
+                </div>
+                ${contentHtml}
+            `;
+            document.getElementById('app').innerHTML = html;
+        }
+
+        function renderCoursePage(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return renderHomePage();
+            const level = levels.find(l => l.id === course.levelId);
+
+            const html = `
+                <div class="mb-8">
+                    <a href="#/level/${level.id}" class="text-sm text-brand-700 hover:text-brand-500 mb-4 inline-block">← ${level.title[currentLang]}</a>
+                    <span class="block text-sm font-medium text-brand-800 mb-1">${t.level_label} ${level.id}</span>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-brand-500 tracking-tight">
+                        ${course.title[currentLang]}
+                    </h1>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Main Content -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <section>
+                            <h2 class="text-lg font-bold text-brand-500 mb-3">${t.intro_label}</h2>
+                            <p class="text-brand-700 leading-relaxed">${course.description[currentLang]}</p>
+                        </section>
+
+                        <section class="bg-white p-6 rounded-xl border border-brand-100">
+                            <h2 class="text-lg font-bold text-brand-500 mb-4">${t.what_you_learn}</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                ${course.topics.map(topic => `
+                                    <div class="flex items-center bg-brand-50 px-4 py-2 rounded-md text-sm text-brand-600 font-medium">
+                                        ${topic}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="lg:col-span-1">
+                        <div class="sticky top-24 bg-white p-6 rounded-xl border border-brand-100 space-y-6">
+                            <div>
+                                <h3 class="text-xs uppercase tracking-wider text-brand-700 mb-1">${t.prepared_by}</h3>
+                                <p class="font-semibold text-brand-500">${(course.author || t.tba_author).replace(/Kunuz Team/g, '<span class="company-kunuz">Kunuz Team</span>').replace(/Awaed Team/g, '<span class="company-awaed">Awaed Team</span>')}</p>
+                            </div>
+                            
+                            <div class="border-t border-brand-100 pt-6">
+                                <h3 class="text-xs uppercase tracking-wider text-brand-700 mb-2">${t.pdf_section}</h3>
+                                ${course.pdfUrl ? `
+                                    <a href="${course.pdfUrl.startsWith('embedded:') ? 'pdfs/course_' + course.id + '.pdf' : course.pdfUrl}" data-pdf-action="view" data-pdf-id="${course.id}" target="_blank" class="block w-full text-center bg-brand-500 text-white py-3 rounded-lg font-semibold hover:bg-brand-600 transition-smooth">
+                                        ${t.view_pdf}
+                                    </a>
+                                    <a href="${course.pdfUrl.startsWith('embedded:') ? 'pdfs/course_' + course.id + '.pdf' : course.pdfUrl}" data-pdf-action="download" data-pdf-id="${course.id}" ${'download'} class="block w-full text-center text-brand-700 py-2 mt-2 text-sm hover:text-brand-500 transition-smooth">
+                                        ${t.download_pdf}
+                                    </a>
+                                ` : `
+                                    <div class="block w-full text-center bg-brand-100 text-brand-700 py-3 rounded-lg font-semibold cursor-not-allowed">
+                                        ${t.pdf_tba}
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('app').innerHTML = html;
+        }
+
+        // --- COMPONENTS ---
+        function renderCourseCard(course) {
+            const level = levels.find(l => l.id === course.levelId);
+            return `
+                <a href="#/course/${course.id}" class="block p-5 bg-white border border-brand-100 rounded-xl transition-smooth card-hover">
+                    <span class="text-sm font-semibold text-brand-800">${t.level_label} ${course.levelId}</span>
+                    <h3 class="mt-1 font-bold text-brand-500 text-lg mb-2">${course.title[currentLang]}</h3>
+                    <p class="text-sm text-brand-700 line-clamp-2">${course.description[currentLang]}</p>
+                    <span class="inline-block mt-4 text-xs font-semibold text-brand-800 border-b border-brand-800 pb-0.5">${t.view_course} →</span>
+                </a>
+            `;
+        }
+
+        function renderStatusBadge(status) {
+            const styles = {
+                available: 'bg-green-100 text-green-700',
+                in_progress: 'bg-yellow-100 text-yellow-700',
+                coming_soon: 'bg-slate-200 text-slate-600'
+            };
+            const labels = {
+                available: t.status_available,
+                in_progress: t.status_progress,
+                coming_soon: t.status_soon
+            };
+            return `<span class="px-2 py-1 rounded-full ${styles[status]}">${labels[status]}</span>`;
+        }
+
+
+
+        // Self-contained PDF library: all lecture files travel with this HTML.
+        const embeddedCoursePdfs = {};
+        // PDFs are deployed as regular static files for fast, reliable viewing.
+        document.addEventListener('click', event => {
+            const link = event.target.closest('a[data-pdf-action]');
+            if (!link) return;
+            const courseId = link.dataset.pdfId;
+            if (!/^\d+$/.test(courseId)) return;
+            link.href = 'pdfs/course_' + courseId + '.pdf';
+            if (link.dataset.pdfAction === 'download') {
+                link.setAttribute('download', 'Kunuz_Academy_Course_' + courseId + '.pdf');
+                link.removeAttribute('target');
+            } else {
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener');
+            }
+        });
+
+        // --- EVENT LISTENERS ---
+        window.addEventListener('hashchange', render);
+        const languageButton = document.getElementById('lang-toggle');
+        if (languageButton) languageButton.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            render();
+        });
+
+        // Initial Load
+        render();
+    </script>
+</body>
+</html>
